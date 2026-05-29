@@ -15,6 +15,7 @@ routes.get('/teste-firestore', async (req, res) => {
 });
 
 routes.get("/products", (req, res) => productController.read(req,res));
+routes.get("/products/slug/:slug",(req, res) => productController.readBySlug(req,res));
 routes.get("/products/:id", (req, res) => productController.readOne(req,res));
 
 export default routes;

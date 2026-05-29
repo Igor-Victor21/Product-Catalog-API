@@ -28,6 +28,41 @@ export default {
         }
     },
 
+    // Buscar por slug
+    readBySlug: async (req, res) => {
+        try {
+
+            const { slug } = req.params;
+
+            const querySnapshot = await db
+                .collection('products')
+                .where('slug', '==', slug)
+                .limit(1)
+                .get();
+
+            if (querySnapshot.empty) {
+                return res.status(404).json({
+                    error: 'Produto não encontrado'
+                });
+            }
+
+            const productDoc = querySnapshot.docs[0];
+
+            return res.status(200).json({
+                id: productDoc.id,
+                ...productDoc.data()
+            });
+
+        } catch (error) {
+
+            console.error('Erro ao buscar produto por slug:', error);
+
+            return res.status(500).json({
+                error: 'Erro ao buscar produto'
+            });
+        }
+    },
+
     // Retornar informações de um produto
     readOne: async (req, res) => {
         try {
