@@ -2,9 +2,14 @@ import express from 'express';
 import routes from './routes.js';
 import cors from 'cors';
 
+// rateLimiter para limitar a quantidade de requisições
+import { globalLimiter } from './middlewares/rateLimiter.js';
+
+
 const app = express();
 const port = 3030;
 
+app.use(globalLimiter);
 app.use(cors()); 
 app.use(express.json());
 app.use(routes);
